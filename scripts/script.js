@@ -14,7 +14,7 @@ const render = function() {
   todoCompleted.textContent = '';
 
 
-  todoData.forEach(function(item) {
+  todoData.forEach(function(item,i) {
     const li = document.createElement('li');
     li.classList.add('todo-item');
     li.innerHTML = '<span class="text-todo">'+ item.value +'</span>' +
@@ -32,17 +32,27 @@ const render = function() {
       item.completed = !item.completed;
       render();
     });
+    const todoDeleteButton = li.querySelector('.todo-remove');
+    todoDeleteButton.addEventListener('click', function() {
+      delete todoData[i];
+      render();
+    });
   });
 };
 
 todoControl.addEventListener('submit', function(event) {
   event.preventDefault();
-  const newTodo = {
-    value: headerInput.value,
-    completed: false
-  }; 
-  todoData.push(newTodo);
-  render();
+  if (headerInput.value.trim() !== '') {
+    const newTodo = {
+      value: headerInput.value,
+      completed: false
+    }; 
+    todoData.push(newTodo);
+    render();
+    headerInput.value = '';
+  } else {
+    return alert('Введите задачу');
+  }
 });
 
 render();
