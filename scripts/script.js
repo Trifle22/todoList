@@ -7,13 +7,15 @@ const todoCompleted = document.querySelector('.todo-completed');
 
 let todoData = [];
 let todoDataJSON;
+let todoDataLocalStorage = [];
 localStorage.setItem = ('tasks', []);
+
 
 const render = function() {
   todoList.textContent = '';
   todoCompleted.textContent = '';
 
-  let todoDataLocalStorage = JSON.parse(localStorage.getItem('tasks'));
+  todoDataLocalStorage = JSON.parse(localStorage.getItem('tasks'));
 
   if (todoDataLocalStorage  === null) {
     todoDataLocalStorage = [];
@@ -45,8 +47,8 @@ const render = function() {
 
     const todoDeleteButton = li.querySelector('.todo-remove');
     todoDeleteButton.addEventListener('click', function() {
-      delete todoData[i];
-      todoDataJSON = JSON.stringify(todoData);
+      delete todoDataLocalStorage[i];
+      todoDataJSON = JSON.stringify(todoDataLocalStorage);
       localStorage.tasks = todoDataJSON;
       render();
     });
@@ -62,8 +64,8 @@ todoControl.addEventListener('submit', function(event) {
       value: headerInput.value,
       completed: false
     };
-    todoData.push(newTodo);
-    todoDataJSON = JSON.stringify(todoData);
+    todoDataLocalStorage.push(newTodo);
+    todoDataJSON = JSON.stringify(todoDataLocalStorage);
     localStorage.tasks = todoDataJSON;
     render();
     headerInput.value = '';
